@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Board Updates</title>
+    <script type="module" src="https://unpkg.com/chessboard-element?module"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #app {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        chess-board {
+            width: 400px;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        .eval-bar {
+            width: 20px;
+            height: 400px;
+            background-color: #ddd;
+            margin-left: 10px;
+            position: relative;
+        }
+        .eval-indicator {
+            width: 100%;
+            height: 4px;
+            background-color: #333;
+            position: absolute;
+            left: 0;
+            transition: top 0.3s ease;
+        }
+    </style>
+</head>
+<body style="background-color: rgb(46, 15, 15); color: white;">
+    <div id="app" style="background-color: rgb(31, 5, 5); color: white;">
+        <h1>Chess Board Updates</h1>
+        <div style="display: flex; align-items: center;">
+            <chess-board ></chess-board>
+            <div class="eval-bar">
+                <div id="evalIndicator1" class="eval-indicator"></div>
+                <div id="evalIndicator2" class="eval-indicator" style="background-color: #777;"></div>
+            </div>
+        </div>
+        <p>FEN: <span id="fen"></span></p>
+        <p>In House Eval: <span id="evalSource1"></span></p>
+        <p>StockFish (down for now): <span id="evalSource2"></span></p>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

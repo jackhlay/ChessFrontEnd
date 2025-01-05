@@ -1,0 +1,4 @@
+# defualt git ignore for node projects
+
+/node_modules
+/package-lock.json
