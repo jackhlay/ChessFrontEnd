@@ -44,14 +44,14 @@
     </style>
 </head>
 <body style="background-color: rgb(46, 15, 15); color: white;">
-    <div id="app" style="background-color: rgb(31, 5, 5); color: white;">
+    <div id="app" style="background-color: rgb(31, 5, 5); color: white; width: 55%;">
         <h1>Computer Plays Chess in Real Time</h1>
-        <div style="display: flex; justify-content: center;">
+        <div style="display: flex; justify-content: center;padding: 20px;width: 45%;margin: 0 auto;">
             <chess-board ></chess-board>
         </div>
         <p>FEN: <span id="fen"></span></p>
         <p>In House Eval: <span id="evalSource1"></span></p>
-        <p>StockFish (down for now): <span id="evalSource2"></span></p>
+        <!-- <p>StockFish (down for now): <span id="evalSource2"></span></p> -->
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
