@@ -2,8 +2,6 @@
 
 ## A simple front end for a real-time chess board
 
-This project is a simple front end for displaying real-time updates to a chess board. It uses `chessboard-element` for rendering the chess board and `socket.io` for real-time communication with the server.
-
 ### Features
 
 - Real-time updates of the chess board position
