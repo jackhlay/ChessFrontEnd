@@ -9,7 +9,7 @@ socket.on('chess-update', ({ fen, evalSource1, evalSource2}) => {
     chessBoard.setPosition(fen);
     fenElement.textContent = fen;
     evalSource1Element.textContent = evalSource1;
-    // evalSource2Element.textContent = evalSource2;
+    evalSource2Element.textContent = evalSource2;
 
 });
 

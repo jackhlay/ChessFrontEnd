@@ -2,13 +2,6 @@
 
 ## A simple front end for a real-time chess board
 
-### Features
-
-- Real-time updates of the chess board position
-- Evaluation bar showing the evaluation from two different sources
-- Responsive design
-
-
 ### Usage
 
 1.  Install the dependencies:
