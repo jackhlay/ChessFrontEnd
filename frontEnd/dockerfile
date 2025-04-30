@@ -1,0 +1,13 @@
+FROM node:20-bullseye-slim
+
+# Copy Files
+WORKDIR /app
+COPY server.js /app/server.js
+COPY package.json /app/package.json
+COPY /public /app/public
+
+RUN npm install
+
+EXPOSE 5000
+
+ENTRYPOINT ["npm", "start"]
