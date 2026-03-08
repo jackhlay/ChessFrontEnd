@@ -52,6 +52,10 @@
         <p>FEN: <span id="fen"></span></p>
         <p>In House Eval: <span id="evalSource1"></span></p>
         <p>StockFish (down for now): <span id="evalSource2"></span></p>
+            <div style="margin-top: 30px;">
+                <h3>Recent EvalSource1 Graph</h3>
+                <canvas id="evalGraph" width="500" height="200" style="background: #222; border-radius: 8px;"></canvas>
+            </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
