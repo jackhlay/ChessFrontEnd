@@ -52,7 +52,24 @@ function drawEvalGraph() {
     }
 }
 
-socket.on('chess-update', ({ fen, evalSource1, evalSource2}) => {
+function displayResults(resultsDict) {
+    console.log('displayResults called with:', resultsDict);
+    const resultsGrid = document.getElementById('resultsGrid');
+    resultsGrid.innerHTML = '';
+    
+    for (const [outcome, count] of Object.entries(resultsDict)) {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'result-item';
+        resultItem.innerHTML = `
+            <div class="result-label">${outcome}</div>
+            <div class="result-value">${count}</div>
+        `;
+        resultsGrid.appendChild(resultItem);
+    }
+}
+
+
+socket.on('chess-update', ({ fen, evalSource1, evalSource2, results}) => {
     chessBoard.setPosition(fen);
     fenElement.textContent = fen;
     evalSource1Element.textContent = evalSource1;
@@ -72,6 +89,15 @@ socket.on('chess-update', ({ fen, evalSource1, evalSource2}) => {
     }
 
     drawEvalGraph();
+    
+    console.log('Results object:', results);
+    console.log('Results truthy?', !!results);
+    if (results) {
+        console.log('Calling displayResults with:', results);
+        displayResults(results);
+    } else {
+        console.log('No results received');
+    }
 });
 
 // Request initial state

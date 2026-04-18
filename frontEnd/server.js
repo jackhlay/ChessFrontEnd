@@ -17,14 +17,14 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.post('/api/update', (req, res) => {
-  const { fen, evalSource1, evalSource2} = req.body;
+  const { fen, evalSource1, evalSource2, results} = req.body;
   
   try {
     // Validate FEN string
     new Chess(fen);
     
     // Emit the update to all connected clients
-    io.emit('chess-update', { fen, evalSource1, evalSource2});
+    io.emit('chess-update', { fen, evalSource1, evalSource2, results});
     
     res.status(200).json({ message: 'Update successful' });
   } catch (error) {
@@ -44,5 +44,6 @@ io.on('connection', (socket) => {
   const initialFen = chess.fen();
   const initialEvalSource1 = "0.0";
   const initialEvalSource2 = "0.0";
-  socket.emit('chess-update', { fen: initialFen, evalSource1: initialEvalSource1, evalSource2: initialEvalSource2});
+  const initialResults = { "White": 0, "Draw": 0, "Black": 0, "???": 0 };
+  socket.emit('chess-update', { fen: initialFen, evalSource1: initialEvalSource1, evalSource2: initialEvalSource2, results: initialResults});
 });

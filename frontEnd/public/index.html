@@ -53,6 +53,81 @@
             border-radius: 8px;
         }
         
+        .collapsible-section {
+            margin-top: 15px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #1a1a1a;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+        
+        .section-header:hover {
+            background-color: #2a2a2a;
+        }
+        
+        .section-header h3 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+        
+        .toggle-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+        
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+        
+        .section-content {
+            padding: 15px;
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            background-color: #0a0a0a;
+        }
+        
+        .section-content.hidden {
+            max-height: 0;
+            padding: 0 15px;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .result-item {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        
+        .result-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffb347;
+        }
+        
         @media (max-width: 600px) {
             #app {
                 padding: 15px;
@@ -60,6 +135,10 @@
             
             h1 {
                 font-size: 1.5em;
+            }
+            
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -71,12 +150,43 @@
         <p>Position: <span id="fen"></span></p>
         <p>Eval: <span id="evalSource1"></span></p>
         <p>Material Eval: <span id="evalSource2"></span></p>
-        <div style="margin-top: 15px;">
-            <h3>Recent Eval + Material Graph</h3>
-            <canvas id="evalGraph"></canvas>
+        
+        <!-- Graph Section -->
+        <div class="collapsible-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3>Recent Eval + Material Graph</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <canvas id="evalGraph"></canvas>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div class="collapsible-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3>Results</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Results will be populated here by JavaScript -->
+                </div>
+            </div>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
+    <script>
+        function toggleSection(headerElement) {
+            const content = headerElement.nextElementSibling;
+            const icon = headerElement.querySelector('.toggle-icon');
+            
+            content.classList.toggle('hidden');
+            icon.classList.toggle('open');
+        }
+        
+        // Example: displayResults({"White": 5, "Draw": 2, "Black": 3, "???": 1})
+    </script>
     <script src="app.js"></script>
 </body>
 </html>
