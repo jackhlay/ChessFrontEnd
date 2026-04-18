@@ -9,23 +9,13 @@ const evalSource2Element = document.getElementById('evalSource2');
 const evalGraph = document.getElementById('evalGraph');
 const ctx = evalGraph.getContext('2d');
 const MAX_EVALS = 50; // Change x to desired number
-let recentEvals = [];
+let recentEvals1 = [];
+let recentEvals2 = [];
+
 
 function drawEvalGraph() {
     ctx.clearRect(0, 0, evalGraph.width, evalGraph.height);
-    ctx.strokeStyle = '#0ff';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    for (let i = 0; i < recentEvals.length; i++) {
-        const x = (i / (MAX_EVALS - 1)) * evalGraph.width;
-        // Map eval to y: assume range -5 to +5
-        const minY = -1500
-        const maxY = 1500
-        const y = evalGraph.height - ((recentEvals[i] - minY) / (maxY - minY) * evalGraph.height);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
+    
     // Draw axes
     ctx.strokeStyle = '#888';
     ctx.lineWidth = 1;
@@ -33,6 +23,33 @@ function drawEvalGraph() {
     ctx.moveTo(0, evalGraph.height / 2);
     ctx.lineTo(evalGraph.width, evalGraph.height / 2);
     ctx.stroke();
+    
+    // Helper function to draw a line
+    function drawLine(evals, color) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let i = 0; i < evals.length; i++) {
+            const x = (i / (MAX_EVALS - 1)) * evalGraph.width;
+            // Map eval to y: assume range -3500 to +3500
+            const minY = -3500;
+            const maxY = 3500;
+            const y = evalGraph.height - ((evals[i] - minY) / (maxY - minY) * evalGraph.height);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+    }
+    
+    // Draw evalSource1 in blue
+    if (recentEvals1.length > 0) {
+        drawLine(recentEvals1, '#0ff');
+    }
+    
+    // Draw evalSource2 in red
+    if (recentEvals2.length > 0) {
+        drawLine(recentEvals2, '#f00');
+    }
 }
 
 socket.on('chess-update', ({ fen, evalSource1, evalSource2}) => {
@@ -41,14 +58,20 @@ socket.on('chess-update', ({ fen, evalSource1, evalSource2}) => {
     evalSource1Element.textContent = evalSource1;
     evalSource2Element.textContent = evalSource2;
 
-    // Track evals
-    let evalNum = parseFloat(evalSource1);
-    if (!isNaN(evalNum)) {
-        recentEvals.push(evalNum);
-        if (recentEvals.length > MAX_EVALS) recentEvals.shift();
-        drawEvalGraph();
+    // Track evals for both sources
+    let evalNum1 = parseFloat(evalSource1);
+    if (!isNaN(evalNum1)) {
+        recentEvals1.push(evalNum1);
+        if (recentEvals1.length > MAX_EVALS) recentEvals1.shift();
+    }
+    
+    let evalNum2 = parseFloat(evalSource2);
+    if (!isNaN(evalNum2)) {
+        recentEvals2.push(evalNum2);
+        if (recentEvals2.length > MAX_EVALS) recentEvals2.shift();
     }
 
+    drawEvalGraph();
 });
 
 // Request initial state

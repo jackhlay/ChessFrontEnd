@@ -24,7 +24,7 @@ app.post('/api/update', (req, res) => {
     new Chess(fen);
     
     // Emit the update to all connected clients
-    io.emit('chess-update', { fen, evalSource1});
+    io.emit('chess-update', { fen, evalSource1, evalSource2});
     
     res.status(200).json({ message: 'Update successful' });
   } catch (error) {
@@ -44,5 +44,5 @@ io.on('connection', (socket) => {
   const initialFen = chess.fen();
   const initialEvalSource1 = "0.0";
   const initialEvalSource2 = "0.0";
-  socket.emit('chess-update', { fen: initialFen, evalSource1: initialEvalSource1});
+  socket.emit('chess-update', { fen: initialFen, evalSource1: initialEvalSource1, evalSource2: initialEvalSource2});
 });
