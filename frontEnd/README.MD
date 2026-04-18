@@ -28,6 +28,12 @@
         }
         ```
 
-### Example
+### Dockerfile
+
+The docker file for this app is easy to build
+- Make sure you are in /frontEnd
+- Enter the following command `docker build -t frontEndDev` .
+
+### Running Example
 
 ![](ex.gif)
